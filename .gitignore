@@ -1,0 +1,24 @@
+# dependencies
+node_modules/
+
+# environment variables
+.env
+
+# production build
+dist/
+build/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# editor folders
+.vscode/
+.idea/
+
+# local files
+.DS_Store
+
+# firebase local emulator
+.firebase/
