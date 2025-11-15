@@ -1,12 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+// src/components/CategoryCard.jsx
+import React from "react";
 
-export default function CategoryCard({ id, title, desc }) {
+const CategoryCard = ({ name, onClick }) => {
   return (
-    <div style={{border:'1px solid #eee', padding:12, borderRadius:8}}>
-      <h3>{title}</h3>
-      <p>{desc}</p>
-      <Link to={`/category/${id}`}>View Items</Link>
+    <div
+      onClick={onClick}
+      className="cursor-pointer border rounded-lg shadow hover:shadow-lg transition p-4 flex items-center justify-center bg-white"
+    >
+      <h3 className="text-lg font-semibold">{name}</h3>
     </div>
-  )
-}
+  );
+};
+
+export default CategoryCard;

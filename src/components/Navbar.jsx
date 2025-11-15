@@ -1,14 +1,45 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
+import "./Navbar.css";
 
 export default function Navbar() {
   return (
-    <nav style={{padding:12, borderBottom:'1px solid #ddd'}}>
-      <Link to="/" style={{marginRight:16}}>Home</Link>
-      <Link to="/category/phones" style={{marginRight:16}}>Phones</Link>
-      <Link to="/category/laptops" style={{marginRight:16}}>Laptops</Link>
-      <Link to="/category/furniture" style={{marginRight:16}}>Furniture</Link>
-      <Link to="/dashboard" style={{float:'right'}}>Dashboard</Link>
+    <nav className="navbar">
+      <div className="navbar-container">
+
+        {/* LEFT – LOGO */}
+        <div className="navbar-logo">
+          <Link to="/">MyBrand</Link>
+        </div>
+
+        {/* MIDDLE – MENU */}
+        <div className="navbar-center-menu">
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+
+          {/* Category Dropdown */}
+          <li className="dropdown">
+  <span>Category ▼</span>
+  <div className="dropdown-content">
+    <Link to="/category/electronics">Electronics</Link>
+    <Link to="/category/books">Books</Link>
+    <Link to="/category/furniture">Furniture</Link>
+    <Link to="/category/clothes">Clothes</Link>
+  </div>
+</li>
+
+
+          <Link to="/blog">Blog</Link>
+          <Link to="/contact">Contact Us</Link>
+        </div>
+
+        {/* RIGHT – LOGIN & SIGNUP */}
+        <div className="navbar-auth">
+          <Link to="/login" className="auth-btn">Login</Link>
+          <Link to="/signup" className="auth-btn signup-btn">Signup</Link>
+        </div>
+
+      </div>
     </nav>
-  )
+  );
 }

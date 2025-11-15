@@ -1,0 +1,136 @@
+/* Base container */
+.category-page {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+/* Title */
+.category-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #111827;
+}
+
+/* Error text */
+.error-text {
+  color: #dc2626;
+  text-align: center;
+  margin-top: 40px;
+  font-weight: bold;
+}
+
+/* Product grid layout */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+/* Product card */
+.product-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Image */
+.product-img {
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+/* Info section */
+.product-info {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.resale-price {
+  color: #2563eb;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.original-price {
+  color: #9ca3af;
+  text-decoration: line-through;
+  font-size: 14px;
+}
+
+.text-sm {
+  font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 4px;
+}
+
+/* Verified icon */
+.verified {
+  color: #3b82f6;
+  font-weight: bold;
+}
+
+/* Button */
+.btn-book {
+  margin-top: auto;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.btn-book:hover {
+  background: #2563eb;
+}
+
+/* Demo text */
+.demo-text {
+  text-align: center;
+  color: #9ca3af;
+  margin-top: auto;
+  font-size: 14px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .category-title {
+    font-size: 22px;
+  }
+
+  .product-img {
+    height: 160px;
+  }
+}
