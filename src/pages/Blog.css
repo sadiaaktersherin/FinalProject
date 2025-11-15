@@ -1,0 +1,56 @@
+/* Blog Page Container */
+.blog-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #eef2ff, #fdf2f8);
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Blog Title */
+.blog-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: #222;
+}
+
+/* Cards Wrapper */
+.blog-card-wrapper {
+  max-width: 900px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Glass Style Card */
+.blog-card {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid rgba(200, 200, 200, 0.4);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  backdrop-filter: blur(6px);
+  transition: 0.3s ease;
+}
+
+.blog-card:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transform: translateY(-3px);
+}
+
+/* Question Style */
+.blog-question {
+  font-size: 20px;
+  font-weight: bold;
+  color: #111;
+}
+
+/* Answer Style */
+.blog-answer {
+  margin-top: 8px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+}

@@ -9,6 +9,8 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^5.3.0",
+    "@stripe/stripe-js": "^8.4.0",
     "@tanstack/react-query": "^4.34.0",
     "firebase": "^10.14.1",
     "react": "^18.2.0",

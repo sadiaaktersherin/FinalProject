@@ -1,0 +1,31 @@
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 80px; /* mt-20 equivalent */
+}
+
+.spinner {
+  width: 48px;  /* w-12 */
+  height: 48px; /* h-12 */
+  border: 4px dashed #3b82f6; /* border-4 border-blue-500 border-dashed */
+  border-radius: 50%;
+  animation: spin 1s linear infinite; /* animate-spin */
+}
+
+.spinner-text {
+  margin-top: 8px; /* mt-2 */
+  color: #4b5563; /* text-gray-600 */
+  font-size: 14px;
+}
+
+/* spin animation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
