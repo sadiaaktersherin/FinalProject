@@ -29,7 +29,7 @@ const locations = ["New York","Los Angeles","Chicago","Houston","San Francisco",
 const sellers = ["John Doe","Jane Smith","Alice Johnson","Bob Williams","Charlie Brown","David Lee","Eva Green","Frank Miller","Grace Kim","Henry Adams"];
 
 // Generate 50 products with live Picsum images (without #1, #2 etc.)
-const products = Array.from({ length: 50 }, (_, i) => {
+const products = Array.from({ length: 10 }, (_, i) => {
   const category = categories[i % categories.length].name;
   const nameList = productNames[category];
   const name = nameList[Math.floor(Math.random() * nameList.length)]; // no number

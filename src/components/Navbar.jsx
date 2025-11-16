@@ -1,11 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../services/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import "./Navbar.css";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user] = useAuthState(auth);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  const handleLogout = async () => {
+    await auth.signOut();
+    alert("✅ Logged out successfully!");
+    navigate("/");
+  };
 
   return (
     <nav className="navbar">
@@ -45,14 +55,21 @@ export default function Navbar() {
 
           <Link to="/blog">Blog</Link>
           <Link to="/contact">Contact Us</Link>
-
-        
         </div>
 
-        {/* Auth Buttons (desktop) */}
+        {/* Auth Buttons / Dashboard */}
         <div className="navbar-auth">
-          <Link to="/login" className="auth-btn">Login</Link>
-          <Link to="/signup" className="auth-btn signup-btn">Signup</Link>
+          {!user ? (
+            <>
+              <Link to="/login" className="auth-btn">Login</Link>
+              <Link to="/signup" className="auth-btn signup-btn">Signup</Link>
+            </>
+          ) : (
+            <>
+              <Link to="/dashboard" className="auth-btn">Dashboard</Link>
+              <button onClick={handleLogout} className="auth-btn logout-btn">Logout</button>
+            </>
+          )}
         </div>
       </div>
     </nav>

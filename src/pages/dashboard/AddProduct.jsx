@@ -1,164 +1,101 @@
-import React, { useState } from "react";
-import { db, auth } from "../../services/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
+import { auth, db } from "../../services/firebase";
+import { collection, addDoc, doc, getDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+
+const categories = ["Electronics", "Clothing", "Books", "Furniture", "Accessories"];
+const locations = ["Chittagong", "Dhaka", "Khulna", "Rajshahi", "Sylhet", "Barisal"];
 
 const AddProduct = () => {
-  const [form, setForm] = useState({
+  const [user, loading] = useAuthState(auth);
+  const navigate = useNavigate();
+  const [sellerVerified, setSellerVerified] = useState(false);
+  const [formData, setFormData] = useState({
     name: "",
     resalePrice: "",
     originalPrice: "",
     condition: "excellent",
     mobile: "",
-    location: "",
-    category: "electronics",
+    location: "Chittagong",
+    category: "Electronics",
     description: "",
     yearOfPurchase: "",
-    status: "available",
   });
-  const [loading, setLoading] = useState(false);
-  const [bulkCount, setBulkCount] = useState(1); // for bulk adding
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const checkSeller = async () => {
+      if (user) {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) setSellerVerified(docSnap.data().verified);
+      }
+    };
+    checkSeller();
+  }, [user]);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    if (!sellerVerified) {
+      alert("You must be a verified seller to add products.");
+      return;
+    }
     try {
-      for (let i = 1; i <= bulkCount; i++) {
-        await addDoc(collection(db, "products"), {
-          ...form,
-          name: `${form.name} ${i}`, // unique name for bulk
-          sellerUid: auth.currentUser.uid,
-          sellerName: auth.currentUser.displayName,
-          createdAt: serverTimestamp(),
-        });
-      }
-      alert(`✅ ${bulkCount} Product(s) added successfully!`);
-      setForm({
-        name: "",
-        resalePrice: "",
-        originalPrice: "",
-        condition: "excellent",
-        mobile: "",
-        location: "",
-        category: "electronics",
-        description: "",
-        yearOfPurchase: "",
-        status: "available",
+      setLoadingSubmit(true);
+      await addDoc(collection(db, "products"), {
+        ...formData,
+        sellerId: user.uid,
+        sellerName: user.displayName,
+        sellerVerified: true,
+        createdAt: new Date(),
       });
-      setBulkCount(1);
-    } catch (error) {
-      console.error("Add product failed:", error);
-      alert("❌ Failed to add product(s).");
+      setMessage("Product added successfully!");
+      setTimeout(() => {
+        setMessage("");
+        navigate("/dashboard/my-products");
+      }, 1500);
+    } catch (err) {
+      alert("Error adding product: " + err.message);
     } finally {
-      setLoading(false);
+      setLoadingSubmit(false);
     }
   };
 
+  if (loading) return <p>Loading...</p>;
+  if (!user) return <p>You must be logged in to add products.</p>;
+
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Add Product</h2>
-      <form className="flex flex-col gap-2 max-w-md" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Product Name"
-          value={form.name}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-        <input
-          type="number"
-          name="resalePrice"
-          placeholder="Resale Price"
-          value={form.resalePrice}
-          onChange={handleChange}
-          className="border p-2 rounded"
-          required
-        />
-        <input
-          type="number"
-          name="originalPrice"
-          placeholder="Original Price"
-          value={form.originalPrice}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <select
-          name="condition"
-          value={form.condition}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        >
+    <div>
+      <h2>Add a New Product</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="name" placeholder="Product Name" required onChange={handleChange} />
+        <input type="number" name="resalePrice" placeholder="Resale Price" required onChange={handleChange} />
+        <input type="number" name="originalPrice" placeholder="Original Price" required onChange={handleChange} />
+        <select name="condition" value={formData.condition} onChange={handleChange}>
           <option value="excellent">Excellent</option>
           <option value="good">Good</option>
           <option value="fair">Fair</option>
         </select>
-        <input
-          type="text"
-          name="mobile"
-          placeholder="Mobile Number"
-          value={form.mobile}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          name="location"
-          placeholder="Location"
-          value={form.location}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <select
-          name="category"
-          value={form.category}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        >
-          <option value="electronics">Electronics</option>
-          <option value="clothing">Clothing</option>
-          <option value="books">Books</option>
+        <input type="text" name="mobile" placeholder="Mobile Number" required onChange={handleChange} />
+        <select name="location" value={formData.location} onChange={handleChange}>
+          {locations.map((loc) => <option key={loc} value={loc}>{loc}</option>)}
         </select>
-        <input
-          type="text"
-          name="description"
-          placeholder="Description"
-          value={form.description}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-        <input
-          type="number"
-          name="yearOfPurchase"
-          placeholder="Year of Purchase"
-          value={form.yearOfPurchase}
-          onChange={handleChange}
-          className="border p-2 rounded"
-        />
-
-        {/* Bulk Add Count */}
-        <input
-          type="number"
-          min={1}
-          max={50}
-          value={bulkCount}
-          onChange={(e) => setBulkCount(Number(e.target.value))}
-          className="border p-2 rounded"
-          placeholder="Number of products to add"
-        />
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-blue-500 text-white p-2 rounded"
-        >
-          {loading ? "Adding..." : "Add Product(s)"}
+        <select name="category" value={formData.category} onChange={handleChange}>
+          {categories.map((cat) => <option key={cat} value={cat}>{cat}</option>)}
+        </select>
+        <input type="text" name="yearOfPurchase" placeholder="Year of Purchase" required onChange={handleChange} />
+        <textarea name="description" placeholder="Description" required onChange={handleChange}></textarea>
+        <button type="submit" disabled={loadingSubmit}>
+          {loadingSubmit ? "Submitting..." : "Add Product"}
         </button>
       </form>
+      {message && <div className="toast">{message}</div>}
     </div>
   );
 };
