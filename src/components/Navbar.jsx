@@ -9,7 +9,7 @@ export default function Navbar() {
 
         {/* LEFT – LOGO */}
         <div className="navbar-logo">
-          <Link to="/">MyBrand</Link>
+          <Link to="/">Ochean <br /> Sky</Link>
         </div>
 
         {/* MIDDLE – MENU */}

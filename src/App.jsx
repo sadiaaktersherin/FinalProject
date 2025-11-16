@@ -10,20 +10,21 @@ import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
 import Blog from "./pages/Blog";
 
-
-
 export default function App() {
   return (
-    <div>
+    <div className="overflow-x-hidden">   {/* 🔥 Scrollbar fully removed */}
       <Navbar />
+
       <Routes>
         <Route path="/" element={<Home />} />
+
         {/* Guests can view categories */}
         <Route path="/category/:id" element={<CategoryPage />} />
-        <Route path="/blog" element={<Blog />} />
 
+        <Route path="/blog" element={<Blog />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+
         {/* Dashboard is protected */}
         <Route
           path="/dashboard/*"
@@ -33,6 +34,7 @@ export default function App() {
             </PrivateRoute>
           }
         />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

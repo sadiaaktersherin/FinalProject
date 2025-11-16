@@ -1,59 +1,26 @@
-// src/pages/Home.jsx
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import CategoryCard from "../components/CategoryCard";
-import "./Home.css"; // Import the plain CSS file
+import Banner from "../components/Banner"; // ✅ Our live wallpaper banner
+import "./Home.css";
 
 const categories = [
-  { id: "electronics", name: "Electronics", img: "https://source.unsplash.com/400x400/?electronics" },
-  { id: "clothing", name: "Clothing", img: "https://source.unsplash.com/400x400/?clothing" },
-  { id: "books", name: "Books", img: "https://source.unsplash.com/400x400/?books" },
-];
-
-const banners = [
-  "https://source.unsplash.com/1600x600/?market,secondhand",
-  "https://source.unsplash.com/1600x600/?shopping,thrift",
-  "https://source.unsplash.com/1600x600/?electronics,secondhand",
+  { id: "electronics", name: "Electronics", img: "https://images.unsplash.com/400x400/?electronics" },
+  { id: "clothing", name: "Clothing", img: "https://images.unsplash.com/400x400/?clothing" },
+  { id: "books", name: "Books", img: "https://images.unsplash.com/400x400/?books" },
 ];
 
 const Home = () => {
   const navigate = useNavigate();
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % banners.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length);
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % banners.length);
 
   const handleCategoryClick = (id) => navigate(`/category/${id}`);
 
   return (
     <div className="home-container">
-      {/* Banner Section */}
-      <section className="banner">
-        <img src={banners[currentSlide]} alt="Banner" className="banner-img" />
 
-        {/* Left/Right Arrows */}
-        <button onClick={prevSlide} className="arrow left">◀</button>
-        <button onClick={nextSlide} className="arrow right">▶</button>
-
-        {/* Dots */}
-        <div className="dots">
-          {banners.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`dot ${index === currentSlide ? "active" : ""}`}
-            ></button>
-          ))}
-        </div>
-      </section>
+      {/* ✅ Use only new Banner component */}
+      <Banner />
 
       {/* Category Section */}
       <section className="categories">
