@@ -1,15 +1,13 @@
-// src/components/CategoryCard.jsx
 import React from "react";
+import "./CategoryCard.css";
 
-const CategoryCard = ({ name, onClick }) => {
+export default function CategoryCard({ name, img, onClick }) {
   return (
-    <div
-      onClick={onClick}
-      className="cursor-pointer border rounded-lg shadow hover:shadow-lg transition p-4 flex items-center justify-center bg-white"
-    >
-      <h3 className="text-lg font-semibold">{name}</h3>
+    <div className="category-card" onClick={onClick}>
+      <img src={img} alt={name} className="category-img" />
+      <div className="category-overlay">
+        <h3 className="category-name">{name}</h3>
+      </div>
     </div>
   );
-};
-
-export default CategoryCard;
+}

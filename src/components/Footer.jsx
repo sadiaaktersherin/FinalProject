@@ -1,22 +1,19 @@
-// src/components/Footer.jsx
 import React from "react";
-import "./Footer.css"; // import plain CSS
+import "./Footer.css";
 
-const Footer = () => {
+export default function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-container">
-        <p className="footer-text">© {new Date().getFullYear()} Second-Hand Marketplace</p>
-        <div className="footer-links">
-          <a href="#home">Home</a>
-          <a href="#categories">Categories</a>
-          <a href="#contact">Contact</a>
-          <a href="#blog">Blog</a>
+      <div className="footer-content">
+        <h3>Second-Hand Marketplace</h3>
+        <p>Buy and sell quality items safely and easily.</p>
+        <div className="footer-socials">
+          <a href="https://facebook.com" target="_blank" rel="noreferrer">FB</a>
+          <a href="https://twitter.com" target="_blank" rel="noreferrer">TW</a>
+          <a href="https://instagram.com" target="_blank" rel="noreferrer">IG</a>
         </div>
-        <p className="footer-small">Built with ❤️ using React and Firebase</p>
+        <p>© {new Date().getFullYear()} Second-Hand Marketplace</p>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}
