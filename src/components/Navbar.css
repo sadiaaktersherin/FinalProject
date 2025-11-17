@@ -8,6 +8,9 @@
   top: 0;
   z-index: 1000;
   transition: background 0.3s;
+  height: 60px;
+  display: flex;
+  align-items: center; /* vertically center content */
 }
 
 .navbar-container {
@@ -17,7 +20,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 60px;
+  width: 100%;
 }
 
 /* Logo */
@@ -43,17 +46,23 @@
   display: flex;
   flex: 1;
   justify-content: center;
+  align-items: center; /* vertical alignment */
   gap: 25px;
 }
 
-.navbar-menu a {
-  color: #fff;
+/* Links and dropdowns */
+.navbar-menu a,
+.navbar-menu .dropdown {
+  display: flex;
+  align-items: center;
+  height: 100%; /* match navbar height */
+  padding: 0 10px;
   text-decoration: none;
-  padding: 5px 10px;
-  transition: all 0.3s;
+  color: #fff;
 }
 
-.navbar-menu a:hover {
+.navbar-menu a:hover,
+.navbar-menu .dropbtn:hover {
   color: #ffd700;
   transform: translateY(-2px);
 }
@@ -61,11 +70,15 @@
 /* DROPDOWN */
 .dropdown {
   position: relative;
+  display: flex;
+  align-items: center; /* vertical alignment */
+  cursor: pointer;
 }
 
 .dropbtn {
-  cursor: pointer;
-  padding: 5px 10px;
+  padding: 0; /* handled by navbar-menu */
+  margin: 0;
+  line-height: 60px; /* vertically center text in navbar */
 }
 
 .dropdown-content {
@@ -77,6 +90,9 @@
   border-radius: 5px;
   overflow: hidden;
   transition: all 0.3s;
+  top: 100%;
+  left: 0;
+  z-index: 100;
 }
 
 .dropdown-content a {
@@ -105,6 +121,7 @@
 .auth-buttons {
   display: flex;
   gap: 10px;
+  align-items: center; /* vertical align */
 }
 
 .auth-btn {

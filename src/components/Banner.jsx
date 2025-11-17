@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Banner.css";
 
 export default function Banner() {
   const wallpapers = [
+    // your wallpapers...
     "https://images.unsplash.com/photo-1606761564773-8671a021ca6f?auto=format&fit=crop&w=1920&q=80",
     "https://images.unsplash.com/photo-1612832021431-4b4aa21e3d9b?auto=format&fit=crop&w=1920&q=80",
     "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
@@ -16,8 +18,9 @@ export default function Banner() {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
-  // Auto slider
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % wallpapers.length);
@@ -29,6 +32,12 @@ export default function Banner() {
     setCurrentIndex((prev) => (prev - 1 + wallpapers.length) % wallpapers.length);
   const nextSlide = () =>
     setCurrentIndex((prev) => (prev + 1) % wallpapers.length);
+
+  const handleSearch = () => {
+    if (searchTerm.trim() !== "") {
+      navigate(`/search?query=${encodeURIComponent(searchTerm)}`);
+    }
+  };
 
   return (
     <div className="banner-container">
@@ -42,11 +51,16 @@ export default function Banner() {
         </div>
       ))}
 
-      {/* Overlay with search bar and text */}
       <div className="banner-overlay">
         <div className="search-bar">
-          <input type="text" placeholder="Search for items…" />
-          <button>Search</button>
+          <input
+            type="text"
+            placeholder="Search for items…"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          />
+          <button onClick={handleSearch}>Search</button>
         </div>
 
         <h1 className="banner-title">Welcome to Second-hand Marketplace</h1>
