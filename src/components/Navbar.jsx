@@ -6,15 +6,27 @@ import "./Navbar.css";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+    setDropdownOpen(false);
+  };
+
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setDropdownOpen(false);
+  };
+
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const handleLogout = async () => {
     await auth.signOut();
-    alert("✅ Logged out successfully!");
+    alert("Logged out!");
     navigate("/");
+    closeMenu();
   };
 
   return (
@@ -23,42 +35,35 @@ export default function Navbar() {
 
         {/* LOGO */}
         <div className="navbar-logo">
-          <Link to="/">
+          <Link to="/" onClick={closeMenu}>
             <span className="logo-top">Second-hand</span>
             <span className="logo-bottom">Marketplace</span>
           </Link>
         </div>
 
-        {/* Hamburger Icon (Mobile) */}
-        <div className="hamburger" onClick={toggleMenu}>
-          <div className={`bar ${menuOpen ? "change" : ""}`}></div>
-          <div className={`bar ${menuOpen ? "change" : ""}`}></div>
-          <div className={`bar ${menuOpen ? "change" : ""}`}></div>
-        </div>
+        {/* MENU - Desktop */}
+        <div className="navbar-menu">
+          <Link to="/" onClick={closeMenu}>Home</Link>
+          <Link to="/about" onClick={closeMenu}>About</Link>
 
-        {/* Menu Links */}
-        <div className={`navbar-center-menu ${menuOpen ? "active" : ""}`}>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-
-          {/* Dropdown */}
-          <li className="dropdown">
-            <span className="dropbtn">Category ▼</span>
-            <div className="dropdown-content">
-              <Link to="/category/electronics">Electronics</Link>
-              <Link to="/category/books">Books</Link>
-              <Link to="/category/furniture">Furniture</Link>
-              <Link to="/category/clothing">Clothing</Link>
-              <Link to="/category/accessories">Accessories</Link>
+          {/* CATEGORY DROPDOWN */}
+          <div className="dropdown">
+            <span className="dropbtn" onClick={toggleDropdown}>Category ▼</span>
+            <div className={`dropdown-content ${dropdownOpen ? "show" : ""}`}>
+              <Link to="/category/electronics" onClick={closeMenu}>Electronics</Link>
+              <Link to="/category/books" onClick={closeMenu}>Books</Link>
+              <Link to="/category/furniture" onClick={closeMenu}>Furniture</Link>
+              <Link to="/category/clothing" onClick={closeMenu}>Clothing</Link>
+              <Link to="/category/accessories" onClick={closeMenu}>Accessories</Link>
             </div>
-          </li>
+          </div>
 
-          <Link to="/blog">Blog</Link>
-          <Link to="/contact">Contact Us</Link>
+          <Link to="/blog" onClick={closeMenu}>Blog</Link>
+          <Link to="/contact" onClick={closeMenu}>Contact Us</Link>
         </div>
 
-        {/* Auth Buttons / Dashboard */}
-        <div className="navbar-auth">
+        {/* AUTH BUTTONS - Desktop */}
+        <div className="auth-buttons">
           {!user ? (
             <>
               <Link to="/login" className="auth-btn">Login</Link>
@@ -71,7 +76,52 @@ export default function Navbar() {
             </>
           )}
         </div>
+
+        {/* HAMBURGER - Mobile */}
+        <div className="hamburger" onClick={toggleMenu}>
+          <div className={`bar ${menuOpen ? "open-top" : ""}`}></div>
+          <div className={`bar ${menuOpen ? "open-middle" : ""}`}></div>
+          <div className={`bar ${menuOpen ? "open-bottom" : ""}`}></div>
+        </div>
       </div>
+
+      {/* MOBILE MENU */}
+      {menuOpen && (
+        <div className="mobile-menu">
+          <Link to="/" onClick={closeMenu}>Home</Link>
+          <Link to="/about" onClick={closeMenu}>About</Link>
+
+          <div>
+            <button onClick={toggleDropdown} className="dropbtn">Category ▼</button>
+            {dropdownOpen && (
+              <div className="dropdown-content">
+                <Link to="/category/electronics" onClick={closeMenu}>Electronics</Link>
+                <Link to="/category/books" onClick={closeMenu}>Books</Link>
+                <Link to="/category/furniture" onClick={closeMenu}>Furniture</Link>
+                <Link to="/category/clothing" onClick={closeMenu}>Clothing</Link>
+                <Link to="/category/accessories" onClick={closeMenu}>Accessories</Link>
+              </div>
+            )}
+          </div>
+
+          <Link to="/blog" onClick={closeMenu}>Blog</Link>
+          <Link to="/contact" onClick={closeMenu}>Contact Us</Link>
+
+          <div className="auth-buttons-mobile">
+            {!user ? (
+              <>
+                <Link to="/login" onClick={closeMenu} className="auth-btn">Login</Link>
+                <Link to="/signup" onClick={closeMenu} className="auth-btn signup-btn">Signup</Link>
+              </>
+            ) : (
+              <>
+                <Link to="/dashboard" onClick={closeMenu} className="auth-btn">Dashboard</Link>
+                <button onClick={handleLogout} className="auth-btn logout-btn">Logout</button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
