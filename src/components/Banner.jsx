@@ -3,19 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./Banner.css";
 
 export default function Banner() {
-  const wallpapers = [
-    // your wallpapers...
-    "https://images.unsplash.com/photo-1606761564773-8671a021ca6f?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1612832021431-4b4aa21e3d9b?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1499084732479-de2c02d45fc4?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1920&q=80"
-  ];
+  // Generate 10 random Picsum images
+  const wallpapers = Array.from({ length: 10 }, (_, i) => `https://picsum.photos/1920/1080?random=${i + 1}`);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,7 +13,7 @@ export default function Banner() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % wallpapers.length);
-    }, 4000);
+    }, 4000); // change every 4 seconds
     return () => clearInterval(interval);
   }, []);
 

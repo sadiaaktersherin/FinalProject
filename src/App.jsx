@@ -1,7 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 import Home from "./pages/Home";
 import CategoryPage from "./pages/CategoryPage";
@@ -13,15 +15,15 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import PrivateRoute from "./components/PrivateRoute";
-import SearchResults from "./pages/SearchResults"; // Import SearchResults page
+import SearchResults from "./pages/SearchResults";
 
 export default function App() {
   return (
-    <div
-      className="app-container"
-      style={{ display: "flex", flexDirection: "column", minHeight: "100vh", overflowX: "hidden" }}
-    >
+    <div className="app-container" style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Navbar />
+
+      {/* Scroll to top on route change */}
+      <ScrollToTop />
 
       <div style={{ flex: 1 }}>
         <Routes>
@@ -32,6 +34,8 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+
+          {/* Dashboard with all sub-routes */}
           <Route
             path="/dashboard/*"
             element={
@@ -41,7 +45,6 @@ export default function App() {
             }
           />
 
-          {/* New Search Results Route */}
           <Route path="/search" element={<SearchResults />} />
 
           <Route path="*" element={<NotFound />} />
